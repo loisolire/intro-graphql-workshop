@@ -1,9 +1,29 @@
 import { useEffect, useState } from 'react';
 import Product from './Product';
+import {
+  useQuery,
+  gql
+} from "@apollo/client";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
+
+const GET_RATES = gql`
+  query GetDogs {
+    cart{
+        count,
+        products{
+          id,
+          title
+        }
+    }
+  }
+`;
+
+const { loading1, error, data } = useQuery(GET_RATES);
+
+console.log(data);
 
   useEffect(() => {
     async function fetchData() {
@@ -43,7 +63,7 @@ export default function App() {
           <span>🛒 &nbsp; Cart (0)</span>
         </div>
       </nav>
-      <div class='container'>
+      <div className='container'>
         <h2>Products</h2>
         <div className='row'>
           {loading ? (
